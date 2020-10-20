@@ -14,6 +14,6 @@ class TbWebView : WebView {
     )
 
     init {
-        this.loadUrl("https://www.google.com/")
+        this.loadUrl("https://duckduckgo.com/")
     }
 }

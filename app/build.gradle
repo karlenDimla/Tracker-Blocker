@@ -47,6 +47,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_verion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_verion"
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
     // Hilt dependencies
     implementation "com.google.dagger:hilt-android:$hilt_version"
