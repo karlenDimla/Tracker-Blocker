@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TrackBlocker</string>
+    <string name="search_bar_hint">Search or type web address</string>
 </resources>

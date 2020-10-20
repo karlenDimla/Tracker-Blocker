@@ -7,13 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".browser.BrowserFragment">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <include layout="@layout/browser_search_bar" />
+
+    <io.kdimla.trackblocker.browser.webview.TbWebView
+        android:id="@+id/browser_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/browser_search_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
