@@ -2,8 +2,10 @@ package io.kdimla.trackblocker.browser
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.kdimla.trackblocker.R
 
+@AndroidEntryPoint
 class BrowserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
