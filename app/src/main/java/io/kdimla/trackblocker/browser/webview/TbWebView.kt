@@ -1,9 +1,13 @@
 package io.kdimla.trackblocker.browser.webview
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.webkit.WebSettings
 import android.webkit.WebView
 
+
+@SuppressLint("SetJavaScriptEnabled")
 class TbWebView : WebView {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -14,6 +18,13 @@ class TbWebView : WebView {
     )
 
     init {
-        this.loadUrl("https://duckduckgo.com/")
+        settings.apply {
+            javaScriptEnabled = true
+            builtInZoomControls = true
+            displayZoomControls = false
+            useWideViewPort = true
+            loadWithOverviewMode = true
+            mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+        }
     }
 }

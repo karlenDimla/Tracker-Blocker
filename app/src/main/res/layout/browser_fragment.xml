@@ -1,21 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".browser.BrowserFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include layout="@layout/browser_search_bar" />
+    <data>
 
-    <io.kdimla.trackblocker.browser.webview.TbWebView
-        android:id="@+id/browser_webview"
+        <variable
+            name="browseViewModel"
+            type="io.kdimla.trackblocker.browser.BrowserViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/browser_search_bar" />
+        tools:context=".browser.BrowserFragment">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/browser_search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/browser_search_bar_height"
+            android:background="@drawable/bg_search_bar"
+            android:elevation="5dp"
+            android:hint="@string/search_bar_hint"
+            android:imeOptions="actionGo"
+            android:importantForAutofill="no"
+            android:inputType="textAutoComplete"
+            android:padding="@dimen/browser_search_bar_start_padding"
+            android:text="@={browseViewModel.searchInputText}"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black_70"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="LabelFor" />
+
+        <io.kdimla.trackblocker.browser.webview.TbWebView
+            android:id="@+id/browser_webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/browser_search_bar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -5,4 +5,5 @@
     <!-- Browser search bar -->
     <dimen name="browser_search_bar_height">60dp</dimen>
     <dimen name="browser_search_bar_padding">8dp</dimen>
+    <dimen name="browser_search_bar_start_padding">12dp</dimen>
 </resources>
