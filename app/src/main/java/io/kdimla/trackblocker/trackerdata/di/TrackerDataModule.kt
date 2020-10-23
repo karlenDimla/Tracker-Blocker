@@ -10,8 +10,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import io.kdimla.trackblocker.trackerdata.source.TrackerDataLoader
 import io.kdimla.trackblocker.trackerdata.source.TrackerDataParser
+import io.kdimla.trackblocker.trackerdata.db.DefaultTrackerDataDBHelper
 import io.kdimla.trackblocker.trackerdata.source.disconnect.DisconnectDataLoader
 import io.kdimla.trackblocker.trackerdata.source.disconnect.DisconnectEntitiesParser
+import io.kdimla.trackblocker.trackerdata.db.TrackerDataDBHelper
+import io.kdimla.trackblocker.trackerdata.source.TrackerDataClient
+import io.kdimla.trackblocker.trackerdata.source.disconnect.DisconnectClient
 import io.kdimla.trackblocker.trackerdata.source.disconnect.model.TrackerEntitiesAdapter
 import io.kdimla.trackblocker.trackerdata.source.disconnect.model.TrackerServicesAdapter
 import javax.inject.Named
@@ -27,6 +31,7 @@ interface TrackerDataModule {
             .build()
 
     }
+
     @Binds
     fun bindTrackerDataParser(impl: DisconnectEntitiesParser): TrackerDataParser
 
@@ -34,7 +39,12 @@ interface TrackerDataModule {
     fun bindTrackerDataLoader(impl: DisconnectDataLoader): TrackerDataLoader
 
     @Binds
+    fun bindTrackerDataDBHelper(impl: DefaultTrackerDataDBHelper): TrackerDataDBHelper
+
+    @Binds
     @Named("applicationContext")
     fun bindAppContext(application: Application): Context
 
+    @Binds
+    fun bindTrackerDataClient(impl: DisconnectClient): TrackerDataClient
 }

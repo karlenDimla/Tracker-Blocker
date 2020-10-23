@@ -23,7 +23,11 @@ class TrackerServicesAdapter : JsonAdapter<TrackerServices>() {
                 val website = reader.nextName()
                 reader.beginArray()
                 while (reader.hasNext()) {
-                    list.add(Tracker(reader.nextString(), category, company, website))
+                    list.add(Tracker(
+                        url = reader.nextString(),
+                        category = category,
+                        company = company,
+                        website = website))
                 }
                 reader.endArray()
                 while (reader.hasNext()) {
