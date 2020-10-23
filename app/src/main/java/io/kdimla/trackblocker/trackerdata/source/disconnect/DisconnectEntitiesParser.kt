@@ -1,5 +1,6 @@
 package io.kdimla.trackblocker.trackerdata.source.disconnect
 
+import androidx.annotation.WorkerThread
 import com.squareup.moshi.Moshi
 import io.kdimla.trackblocker.trackerdata.db.model.Tracker
 import io.kdimla.trackblocker.trackerdata.source.TrackerDataParser
@@ -7,6 +8,7 @@ import io.kdimla.trackblocker.trackerdata.source.disconnect.model.TrackerEntitie
 import io.kdimla.trackblocker.trackerdata.source.disconnect.model.TrackerServices
 import javax.inject.Inject
 
+@WorkerThread
 class DisconnectEntitiesParser @Inject constructor(
     private val moshi: Moshi
 ) : TrackerDataParser {
