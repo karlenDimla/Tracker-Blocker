@@ -8,6 +8,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import io.kdimla.trackblocker.browser.blocker.RequestInterceptor
 import io.kdimla.trackblocker.browser.blocker.RequestInterceptorImpl
+import io.kdimla.trackblocker.browser.blocker.ThirdPartyDetector
+import io.kdimla.trackblocker.browser.blocker.ThirdPartyDetectorImpl
 import io.kdimla.trackblocker.browser.webview.RequestUrlProvider
 import io.kdimla.trackblocker.browser.webview.RequestUrlProviderImpl
 import io.kdimla.trackblocker.browser.webview.TbWebViewClient
@@ -29,5 +31,8 @@ interface BrowserFragmentModule {
 
     @Binds
     fun bindRequestInterceptor(impl: RequestInterceptorImpl): RequestInterceptor
+
+    @Binds
+    fun bindThirdPartyDetectorImpl(impl: ThirdPartyDetectorImpl): ThirdPartyDetector
 
 }
