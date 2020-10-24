@@ -39,6 +39,9 @@ class TrackerServicesAdapter : JsonAdapter<TrackerServices>() {
             reader.endArray()
         }
         reader.endObject()
+        while (reader.hasNext()) {
+            reader.skipValue()
+        }
         reader.endObject()
         return TrackerServices(list.toList())
     }
