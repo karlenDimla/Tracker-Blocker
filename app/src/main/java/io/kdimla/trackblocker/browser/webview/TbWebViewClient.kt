@@ -4,16 +4,15 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import io.kdimla.trackblocker.browser.blocker.RequestInterceptor
 import javax.inject.Inject
 
 class TbWebViewClient @Inject constructor(
     private val requestInterceptor: RequestInterceptor
 ) : WebViewClient() {
-    private var lastRequestedPageUrl: String? = ""
+    private var lastRequestedPageUrl: String = ""
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        lastRequestedPageUrl = request?.url.toString()
+        lastRequestedPageUrl = request?.url?.host ?: ""
         return super.shouldOverrideUrlLoading(view, request)
     }
 
@@ -21,6 +20,7 @@ class TbWebViewClient @Inject constructor(
         view: WebView,
         request: WebResourceRequest
     ): WebResourceResponse? {
-        return requestInterceptor.intercept(lastRequestedPageUrl, request)
+        val interceptedUrl = request.url.host ?: ""
+        return requestInterceptor.intercept(lastRequestedPageUrl, interceptedUrl)
     }
 }

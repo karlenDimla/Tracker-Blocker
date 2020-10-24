@@ -1,14 +1,14 @@
-package io.kdimla.trackblocker.browser.blocker
+package io.kdimla.trackblocker.browser.webview
 
-import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import io.kdimla.trackblocker.trackerdata.source.TrackerDataClient
+import io.kdimla.trackblocker.trackerdata.source.disconnect.ThirdPartyDetector
 import javax.inject.Inject
 
 interface RequestInterceptor {
     fun intercept(
-        pageUrl: String?,
-        request: WebResourceRequest
+        pageUrl: String,
+        interceptedUrl: String
     ): WebResourceResponse?
 }
 
@@ -17,12 +17,13 @@ class RequestInterceptorImpl @Inject constructor(
     private val trackerDataClient: TrackerDataClient
 ) : RequestInterceptor {
     override fun intercept(
-        pageUrl: String?,
-        request: WebResourceRequest
+        pageUrl: String,
+        interceptedUrl: String
     ): WebResourceResponse? {
-        val isThirdParty = thirdPartyDetector.isThirdParty(pageUrl!!, request.url.toString())
-        if (isThirdParty && trackerDataClient.matches(pageUrl, request.url.toString())) {
-            println("TRACKERBLOCKER BLOCKED: ${request.url} for $pageUrl")
+        println("TRACKERBLOCKER INTERCEPTED: $interceptedUrl for $pageUrl")
+        val isThirdParty = thirdPartyDetector.isThirdParty(pageUrl, interceptedUrl)
+        if (isThirdParty && trackerDataClient.matches(pageUrl, interceptedUrl)) {
+            println("TRACKERBLOCKER BLOCKED: $interceptedUrl for $pageUrl")
             return WebResourceResponse(null, null, null)
         }
         return null

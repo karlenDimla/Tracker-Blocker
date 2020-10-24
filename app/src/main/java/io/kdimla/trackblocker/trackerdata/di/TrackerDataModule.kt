@@ -15,7 +15,7 @@ import io.kdimla.trackblocker.trackerdata.source.disconnect.DisconnectDataLoader
 import io.kdimla.trackblocker.trackerdata.source.disconnect.DisconnectEntitiesParser
 import io.kdimla.trackblocker.trackerdata.db.TrackerDataDBHelper
 import io.kdimla.trackblocker.trackerdata.source.TrackerDataClient
-import io.kdimla.trackblocker.trackerdata.source.disconnect.DisconnectClient
+import io.kdimla.trackblocker.trackerdata.source.disconnect.*
 import io.kdimla.trackblocker.trackerdata.source.disconnect.model.TrackerEntitiesAdapter
 import io.kdimla.trackblocker.trackerdata.source.disconnect.model.TrackerServicesAdapter
 import javax.inject.Named
@@ -39,7 +39,7 @@ interface TrackerDataModule {
     fun bindTrackerDataLoader(impl: DisconnectDataLoader): TrackerDataLoader
 
     @Binds
-    fun bindTrackerDataDBHelper(impl: DefaultTrackerDataDBHelper): TrackerDataDBHelper
+    fun bindTrackerDataDBHelper(impl: DefaultTrackerDataRepository): TrackerDataRepository
 
     @Binds
     @Named("applicationContext")
@@ -47,4 +47,7 @@ interface TrackerDataModule {
 
     @Binds
     fun bindTrackerDataClient(impl: DisconnectClient): TrackerDataClient
+
+    @Binds
+    fun bindThirdPartyDetectorImpl(implDisconnect: DisconnectThirdPartyDetectorImpl): ThirdPartyDetector
 }
