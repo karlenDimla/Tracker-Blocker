@@ -1,22 +1,22 @@
 package io.kdimla.trackblocker.trackerdata.source.disconnect
 
 import androidx.annotation.WorkerThread
-import io.kdimla.trackblocker.trackerdata.db.DefaultTrackerDataRepository
+import io.kdimla.trackblocker.trackerdata.db.TrackerDataRepository
 import io.kdimla.trackblocker.trackerdata.source.TrackerDataDownloader
-import io.kdimla.trackblocker.trackerdata.source.endpoint.TrackerDataEndpoint
+import io.kdimla.trackblocker.trackerdata.source.endpoint.TrackerDataEndpointInteractor
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @WorkerThread
 class DisconnectDataDownloader @Inject constructor(
-    private val endpoint: TrackerDataEndpoint,
-    private val dbHelper: DefaultTrackerDataRepository
+    private val endpointInteractor: TrackerDataEndpointInteractor,
+    private val repository: TrackerDataRepository
 ) : TrackerDataDownloader {
     override fun downloadData(): Boolean {
-        val trackers = endpoint.getTrackerServices().execute().body()?.trackers ?: listOf()
+        val trackers = endpointInteractor.getTrackers()
         if (trackers.isNotEmpty()) {
             runBlocking {
-                dbHelper.saveTrackers(trackers)
+                repository.saveTrackers(trackers)
             }
         }
         return true

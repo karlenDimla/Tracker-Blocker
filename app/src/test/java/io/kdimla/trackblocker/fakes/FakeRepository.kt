@@ -4,11 +4,13 @@ import io.kdimla.trackblocker.trackerdata.db.TrackerDataRepository
 import io.kdimla.trackblocker.trackerdata.db.model.Tracker
 import io.kdimla.trackblocker.trackerdata.db.model.TrackerProperty
 import io.kdimla.trackblocker.trackerdata.db.model.TrackerResource
+import java.util.*
 
 class FakeRepository : TrackerDataRepository {
+    var stateStack = Stack<State>()
     var expectedTrackerList = listOf<Tracker>()
     override suspend fun saveTrackers(trackers: List<Tracker>) {
-        TODO("Not yet implemented")
+        stateStack.push(State.TrackersSaved(trackers))
     }
 
     override suspend fun saveProperties(properties: List<TrackerProperty>) {
@@ -32,4 +34,10 @@ class FakeRepository : TrackerDataRepository {
     }
 
     override fun getTracker(url: String): List<Tracker> = expectedTrackerList
+
+    sealed class State {
+        data class TrackersSaved(val trackers: List<Tracker>): State()
+        data class PropertiesSaved(val props: List<TrackerProperty>): State()
+        data class ResourcesSaved(val resources: List<TrackerResource>): State()
+    }
 }

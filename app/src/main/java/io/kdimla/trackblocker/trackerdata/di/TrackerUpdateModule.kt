@@ -13,6 +13,8 @@ import dagger.hilt.android.components.ApplicationComponent
 import io.kdimla.trackblocker.trackerdata.source.TrackerDataDownloader
 import io.kdimla.trackblocker.trackerdata.source.disconnect.DisconnectDataDownloader
 import io.kdimla.trackblocker.trackerdata.source.endpoint.TrackerDataEndpoint
+import io.kdimla.trackblocker.trackerdata.source.endpoint.TrackerDataEndpointInteractor
+import io.kdimla.trackblocker.trackerdata.source.endpoint.TrackerDataEndpointInteractorImpl
 import io.kdimla.trackblocker.trackerdata.source.update.DefaultTrackerDataUpdateScheduler
 import io.kdimla.trackblocker.trackerdata.source.update.TrackerDataUpdateScheduler
 import retrofit2.Retrofit
@@ -54,4 +56,9 @@ interface TrackerUpdateModule {
 
     @Binds
     fun bindTrackerDataDownloader(impl: DisconnectDataDownloader): TrackerDataDownloader
+
+    @Binds
+    fun bindTrackerDataEndpointInteractor(
+        impl: TrackerDataEndpointInteractorImpl
+    ): TrackerDataEndpointInteractor
 }
