@@ -1,24 +1,28 @@
 package io.kdimla.trackblocker
 
 import android.app.Application
-import android.webkit.CookieManager
-import android.webkit.CookieSyncManager
-import android.webkit.WebView
+import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
 import io.kdimla.trackblocker.trackerdata.source.TrackerDataLoader
+import io.kdimla.trackblocker.trackerdata.source.update.TrackerDataUpdateScheduler
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltAndroidApp
-class TrackerBlockerApplication : Application() {
+class TrackerBlockerApplication : Application(){
     @Inject
     lateinit var trackerDataLoader: TrackerDataLoader
+    @Inject
+    lateinit var trackerDataUpdateScheduler: TrackerDataUpdateScheduler
+
     override fun onCreate() {
         super.onCreate()
         GlobalScope.launch {
             trackerDataLoader.loadData()
         }
+        trackerDataUpdateScheduler.schedulePeriodicUpdate()
     }
+
 }
