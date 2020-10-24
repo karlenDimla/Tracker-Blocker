@@ -3,11 +3,10 @@ package io.kdimla.trackblocker.browser.blocker
 import android.net.Uri
 import io.kdimla.trackblocker.trackerdata.db.dao.TrackerPropertyDao
 import io.kdimla.trackblocker.trackerdata.db.dao.TrackerResourceDao
-import java.net.URL
 import javax.inject.Inject
 
 interface ThirdPartyDetector {
-    fun isThirdParty(requestedUrl: String, interceptedUrl: String): Boolean
+    fun isThirdParty(pageUrl: String, interceptedUrl: String): Boolean
 }
 
 class ThirdPartyDetectorImpl @Inject constructor(
@@ -15,19 +14,19 @@ class ThirdPartyDetectorImpl @Inject constructor(
     private val trackerPropertyDao: TrackerPropertyDao
 ) : ThirdPartyDetector {
 
-    override fun isThirdParty(requestedUrl: String, interceptedUrl: String): Boolean {
-        return !(isWithinSameDomain(requestedUrl, interceptedUrl) ||
-                hasKnownRelation(requestedUrl, interceptedUrl))
+    override fun isThirdParty(pageUrl: String, interceptedUrl: String): Boolean {
+        return !(isWithinSameDomain(pageUrl, interceptedUrl) ||
+                hasKnownRelation(pageUrl, interceptedUrl))
     }
 
-    private fun isWithinSameDomain(requestedUrl: String, interceptedUrl: String): Boolean {
-        val requestedHost = Uri.parse(requestedUrl).host ?: ""
+    private fun isWithinSameDomain(pageUrl: String, interceptedUrl: String): Boolean {
+        val requestedHost = Uri.parse(pageUrl).host ?: ""
         val interceptedHost = Uri.parse(interceptedUrl).host ?: ""
         return requestedHost == interceptedHost || interceptedHost.endsWith(".$requestedHost")
     }
 
-    private fun hasKnownRelation(requestedUrl: String, interceptedUrl: String): Boolean {
-        val properties = trackerPropertyDao.getTrackerProperty(requestedUrl)
+    private fun hasKnownRelation(pageUrl: String, interceptedUrl: String): Boolean {
+        val properties = trackerPropertyDao.getTrackerProperty(pageUrl)
         if (properties.isEmpty()) return false
         properties.forEach {
 

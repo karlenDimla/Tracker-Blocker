@@ -8,7 +8,7 @@ import javax.inject.Inject
 class DisconnectClient @Inject constructor(
     private val trackerDao: TrackerDao
 ) : TrackerDataClient {
-    override fun matches(requestedUrl: String, interceptedUrl: String): Boolean {
+    override fun matches(pageUrl: String, interceptedUrl: String): Boolean {
         val host = Uri.parse(interceptedUrl)?.host ?: ""
         val hostMinusSubDomain = host.removeSubdomain()
         val matches = trackerDao.getTracker(hostMinusSubDomain)

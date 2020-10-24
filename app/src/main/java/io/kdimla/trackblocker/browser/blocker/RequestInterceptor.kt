@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 interface RequestInterceptor {
     fun intercept(
-        requestedUrl: String?,
+        pageUrl: String?,
         request: WebResourceRequest
     ): WebResourceResponse?
 }
@@ -17,12 +17,12 @@ class RequestInterceptorImpl @Inject constructor(
     private val trackerDataClient: TrackerDataClient
 ) : RequestInterceptor {
     override fun intercept(
-        requestedUrl: String?,
+        pageUrl: String?,
         request: WebResourceRequest
     ): WebResourceResponse? {
-        val isThirdParty = thirdPartyDetector.isThirdParty(requestedUrl!!, request.url.toString())
-        if (isThirdParty && trackerDataClient.matches(requestedUrl, request.url.toString())) {
-            println("TRACKERBLOCKER BLOCKED: ${request.url} for $requestedUrl")
+        val isThirdParty = thirdPartyDetector.isThirdParty(pageUrl!!, request.url.toString())
+        if (isThirdParty && trackerDataClient.matches(pageUrl, request.url.toString())) {
+            println("TRACKERBLOCKER BLOCKED: ${request.url} for $pageUrl")
             return WebResourceResponse(null, null, null)
         }
         return null
