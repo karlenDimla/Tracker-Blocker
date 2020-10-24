@@ -22,7 +22,7 @@ class RequestInterceptorImpl @Inject constructor(
     ): WebResourceResponse? {
         val isThirdParty = thirdPartyDetector.isThirdParty(requestedUrl!!, request.url.toString())
         if (isThirdParty && trackerDataClient.matches(requestedUrl, request.url.toString())) {
-            println("TRACKERBLOCKER BLOCKED: ${request.url}")
+            println("TRACKERBLOCKER BLOCKED: ${request.url} for $requestedUrl")
             return WebResourceResponse(null, null, null)
         }
         return null

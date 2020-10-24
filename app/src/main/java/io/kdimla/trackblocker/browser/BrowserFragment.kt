@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.webkit.WebViewClient
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,7 +26,7 @@ class BrowserFragment : Fragment() {
     }
 
     @Inject
-    lateinit var webViewClient: WebViewClient
+    lateinit var localWebViewClient: WebViewClient
     private lateinit var fragmentBinding: BrowserFragmentBinding
     private val viewModel: BrowserViewModel by viewModels()
 
@@ -47,23 +47,37 @@ class BrowserFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fragmentBinding.browserWebview.webViewClient = webViewClient
-        fragmentBinding.browserSearchBar.setOnEditorActionListener { view, actionId, _ ->
-            when (actionId) {
-                EditorInfo.IME_ACTION_GO -> {
-                    viewModel.updateLoadedUrl()
-                    val imm =
-                        context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(view.windowToken, 0)
-                    view.clearFocus()
-                    true
-                }
-                else -> false
+        fragmentBinding.browserWebview.apply {
+            this.webViewClient = localWebViewClient
+            setOnKeyListener { _, _, keyEvent ->
+                WebViewActionHandler.handleBackPress(keyEvent) { handleBack() }
             }
+        }
+        fragmentBinding.browserSearchBar.setOnEditorActionListener { textView, actionId, keyEvent ->
+            SearchBarActionHandler.handleEditorAction(actionId, keyEvent) { handleSubmit(textView) }
         }
         viewModel.urlToLoad.observe(viewLifecycleOwner) {
             fragmentBinding.browserWebview.loadUrl(it)
         }
     }
 
+    private fun handleBack(): Boolean {
+        return fragmentBinding.browserWebview.let {
+            if (it.canGoBack()) {
+                it.goBack()
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun handleSubmit(view: TextView): Boolean {
+        viewModel.updateLoadedUrl()
+        val imm =
+            context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+        view.clearFocus()
+        return true
+    }
 }
