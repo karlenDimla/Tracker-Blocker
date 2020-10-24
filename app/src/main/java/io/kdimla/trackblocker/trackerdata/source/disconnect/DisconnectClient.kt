@@ -13,6 +13,7 @@ class DisconnectClient @Inject constructor(
         return matches.isNotEmpty()
     }
 
+    // TODO find a fix to remove subdomain. This doesn't work for "co.uk" etc
     private fun String.removeSubdomain(): String {
         return split(".").run {
             val lastIndex = this.size - 1
