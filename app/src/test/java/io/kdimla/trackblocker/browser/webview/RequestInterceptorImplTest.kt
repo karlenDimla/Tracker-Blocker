@@ -3,6 +3,7 @@ package io.kdimla.trackblocker.browser.webview
 import com.google.common.truth.Truth.assertThat
 import io.kdimla.trackblocker.fakes.FakeThirdPartyDetector
 import io.kdimla.trackblocker.fakes.FakeTrackerDataClient
+import org.junit.Before
 import org.junit.Test
 
 class RequestInterceptorImplTest {
@@ -10,6 +11,11 @@ class RequestInterceptorImplTest {
     private val client = FakeTrackerDataClient()
 
     private val underTest = RequestInterceptorImpl(thirdPartyDetector, client)
+
+    @Before
+    fun setUp() {
+        client.clearState()
+    }
 
     @Test
     fun urlIsFirstParty_intercept_returnNull() {

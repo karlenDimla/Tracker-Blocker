@@ -10,6 +10,10 @@ class FakeTrackerDataClient : TrackerDataClient {
         return shouldMatch
     }
 
+    fun clearState() {
+        lastState = State.MatchNotChecked
+    }
+
     sealed class State {
         object MatchNotChecked : State()
         data class MatchRequested(

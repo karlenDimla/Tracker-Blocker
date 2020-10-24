@@ -4,12 +4,18 @@ import com.google.common.truth.Truth.assertThat
 import io.kdimla.trackblocker.fakes.FakeRepository
 import io.kdimla.trackblocker.fakes.FakeTrackerDataEndpointInteractor
 import io.kdimla.trackblocker.trackerdata.db.model.Tracker
+import org.junit.Before
 import org.junit.Test
 
 class DisconnectDataDownloaderTest {
     private val fakeRepository = FakeRepository()
     private val endpoint = FakeTrackerDataEndpointInteractor()
     private val underTest = DisconnectDataDownloader(endpoint, fakeRepository)
+
+    @Before
+    fun setUp() {
+        fakeRepository.clearStateStack()
+    }
 
     @Test
     fun noresult_downloadData_doNothing() {

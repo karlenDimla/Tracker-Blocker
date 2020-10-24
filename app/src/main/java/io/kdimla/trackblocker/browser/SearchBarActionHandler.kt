@@ -5,7 +5,7 @@ import android.view.inputmethod.EditorInfo
 
 object SearchBarActionHandler {
 
-    fun handleEditorAction(actionId: Int, keyEvent: KeyEvent, doOnSubmit: () -> Boolean): Boolean {
+    fun handleEditorAction(actionId: Int, keyEvent: KeyEvent?, doOnSubmit: () -> Boolean): Boolean {
         return handleGo(actionId, doOnSubmit) || handleKeyDown(keyEvent, doOnSubmit)
     }
 
@@ -16,8 +16,8 @@ object SearchBarActionHandler {
         }
     }
 
-    private fun handleKeyDown(event: KeyEvent, doOnSubmit: () -> Boolean): Boolean {
-        return if (event.action == KeyEvent.ACTION_DOWN) {
+    private fun handleKeyDown(event: KeyEvent?, doOnSubmit: () -> Boolean): Boolean {
+        return if (event?.action == KeyEvent.ACTION_DOWN) {
             when (event.keyCode) {
                 KeyEvent.KEYCODE_ENTER -> doOnSubmit()
                 else -> false

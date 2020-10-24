@@ -27,6 +27,7 @@ class DefaultTrackerDataUpdateScheduler @Inject constructor(
         return PeriodicWorkRequestBuilder<TrackerDataUpdateWorker>(1, TimeUnit.MINUTES)
             .addTag(TrackerDataUpdateWorker.TAG)
             .setConstraints(constraints)
+            .setInitialDelay(12, TimeUnit.HOURS)
             .setBackoffCriteria(
                 BackoffPolicy.LINEAR,
                 10,

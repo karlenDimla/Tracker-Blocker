@@ -9,6 +9,7 @@ import java.util.*
 class FakeRepository : TrackerDataRepository {
     var stateStack = Stack<State>()
     var expectedTrackerList = listOf<Tracker>()
+    var expectedPropertyList = listOf<TrackerProperty>()
     override suspend fun saveTrackers(trackers: List<Tracker>) {
         stateStack.push(State.TrackersSaved(trackers))
     }
@@ -25,15 +26,15 @@ class FakeRepository : TrackerDataRepository {
         TODO("Not yet implemented")
     }
 
-    override fun countTrackers(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun countTrackers(): Int = expectedTrackerList.size
 
-    override fun countProperties(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun countProperties(): Int = expectedPropertyList.size
 
     override fun getTracker(url: String): List<Tracker> = expectedTrackerList
+
+    fun clearStateStack() {
+        stateStack.empty()
+    }
 
     sealed class State {
         data class TrackersSaved(val trackers: List<Tracker>): State()
