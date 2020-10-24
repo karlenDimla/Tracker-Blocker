@@ -8,13 +8,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import io.kdimla.trackblocker.trackerdata.db.DefaultTrackerDataRepository
+import io.kdimla.trackblocker.trackerdata.db.TrackerDataRepository
+import io.kdimla.trackblocker.trackerdata.source.TrackerDataClient
 import io.kdimla.trackblocker.trackerdata.source.TrackerDataLoader
 import io.kdimla.trackblocker.trackerdata.source.TrackerDataParser
-import io.kdimla.trackblocker.trackerdata.db.DefaultTrackerDataDBHelper
-import io.kdimla.trackblocker.trackerdata.source.disconnect.DisconnectDataLoader
-import io.kdimla.trackblocker.trackerdata.source.disconnect.DisconnectEntitiesParser
-import io.kdimla.trackblocker.trackerdata.db.TrackerDataDBHelper
-import io.kdimla.trackblocker.trackerdata.source.TrackerDataClient
 import io.kdimla.trackblocker.trackerdata.source.disconnect.*
 import io.kdimla.trackblocker.trackerdata.source.disconnect.model.TrackerEntitiesAdapter
 import io.kdimla.trackblocker.trackerdata.source.disconnect.model.TrackerServicesAdapter
