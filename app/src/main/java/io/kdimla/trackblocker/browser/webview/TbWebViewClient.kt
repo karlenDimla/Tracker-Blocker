@@ -1,5 +1,6 @@
 package io.kdimla.trackblocker.browser.webview
 
+import android.net.Uri
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
@@ -14,6 +15,10 @@ class TbWebViewClient @Inject constructor(
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
         lastRequestedPageUrl = request?.url?.host ?: ""
         return super.shouldOverrideUrlLoading(view, request)
+    }
+
+    fun setPageUrl(newPageUrl: String) {
+        this.lastRequestedPageUrl = Uri.parse(newPageUrl).host ?: ""
     }
 
     override fun shouldInterceptRequest(

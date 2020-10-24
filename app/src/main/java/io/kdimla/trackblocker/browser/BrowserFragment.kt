@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.webkit.WebViewClient
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import dagger.hilt.android.AndroidEntryPoint
 import io.kdimla.trackblocker.R
+import io.kdimla.trackblocker.browser.webview.TbWebViewClient
 import io.kdimla.trackblocker.databinding.BrowserFragmentBinding
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ class BrowserFragment : Fragment() {
     }
 
     @Inject
-    lateinit var localWebViewClient: WebViewClient
+    lateinit var localWebViewClient: TbWebViewClient
     private lateinit var fragmentBinding: BrowserFragmentBinding
     private val viewModel: BrowserViewModel by viewModels()
 
@@ -58,6 +58,7 @@ class BrowserFragment : Fragment() {
         }
         viewModel.urlToLoad.observe(viewLifecycleOwner) {
             fragmentBinding.browserWebview.loadUrl(it)
+            localWebViewClient.setPageUrl(it)
         }
     }
 
