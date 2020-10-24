@@ -6,52 +6,95 @@ import io.kdimla.trackblocker.trackerdata.db.dao.TrackerResourceDao
 import io.kdimla.trackblocker.trackerdata.db.model.Tracker
 import io.kdimla.trackblocker.trackerdata.db.model.TrackerProperty
 import io.kdimla.trackblocker.trackerdata.db.model.TrackerResource
+import java.util.*
 
-class FakeTrackerDao: TrackerDao() {
+class FakeTrackerDao : TrackerDao() {
     var expectedTrackerList = listOf<Tracker>()
-    override fun getAll(): List<Tracker> = expectedTrackerList
+    var stateStack = Stack<State>()
+    override fun getAll(): List<Tracker> {
+        stateStack.push(State.GetAllCalled)
+        return expectedTrackerList
+    }
 
     override fun insertAll(trackers: List<Tracker>) {
-        TODO("Not yet implemented")
+
     }
 
     override fun deleteAll() {
-        TODO("Not yet implemented")
     }
 
-    override fun getTracker(url: String): List<Tracker> = expectedTrackerList
+    override fun getTracker(url: String): List<Tracker> {
+        stateStack.push(State.GetTrackerCalled)
+        return expectedTrackerList
+    }
+
+    fun clearState() {
+        stateStack.empty()
+    }
+
+    sealed class State {
+        object GetAllCalled : State()
+        object GetTrackerCalled : State()
+    }
 }
 
-class FakeTrackerResourceDao: TrackerResourceDao() {
+class FakeTrackerResourceDao : TrackerResourceDao() {
     var shouldUrlBeAResource = false
+    var stateStack = Stack<State>()
+    var expectedResourceList = listOf<TrackerResource>()
     override fun getAll(): List<TrackerResource> {
-        TODO("Not yet implemented")
+        stateStack.push(State.GetAllCalled)
+        return expectedResourceList
     }
 
     override fun insertAll(resources: List<TrackerResource>) {
-        TODO("Not yet implemented")
+
     }
 
     override fun deleteAll() {
-        TODO("Not yet implemented")
     }
 
     override fun countTrackerResource(resourceName: String, companyName: String): Int {
-        return if(shouldUrlBeAResource) 1 else 0
+        stateStack.push(State.CountTrackerResourceCalled)
+        return if (shouldUrlBeAResource) 1 else 0
+    }
+
+    fun clearState() {
+        stateStack.empty()
+    }
+
+    sealed class State {
+        object GetAllCalled : State()
+        object CountTrackerResourceCalled : State()
     }
 }
 
-class FakeTrackerPropertyDao: TrackerPropertyDao() {
+class FakeTrackerPropertyDao : TrackerPropertyDao() {
     var expectedPropertyList = listOf<TrackerProperty>()
-    override fun getAll(): List<TrackerProperty> = expectedPropertyList
+    var stateStack = Stack<State>()
+    override fun getAll(): List<TrackerProperty> {
+        stateStack.push(State.GetAllCalled)
+        return expectedPropertyList
+    }
 
     override fun insertAll(properties: List<TrackerProperty>) {
-        TODO("Not yet implemented")
+
     }
 
     override fun deleteAll() {
-        TODO("Not yet implemented")
     }
 
-    override fun getTrackerProperty(propertyName: String): List<TrackerProperty> = expectedPropertyList
+    override fun getTrackerProperty(propertyName: String): List<TrackerProperty> {
+        stateStack.push(State.GetPropertyCalled)
+        return expectedPropertyList
+    }
+
+    fun clearState() {
+        stateStack.empty()
+    }
+
+    sealed class State {
+        object GetAllCalled : State()
+        object GetPropertyCalled : State()
+    }
 }

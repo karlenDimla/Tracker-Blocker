@@ -1,7 +1,6 @@
 package io.kdimla.trackblocker
 
 import android.app.Application
-import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
 import io.kdimla.trackblocker.trackerdata.source.TrackerDataLoader
 import io.kdimla.trackblocker.trackerdata.source.update.TrackerDataUpdateScheduler
@@ -19,7 +18,11 @@ class TrackerBlockerApplication : Application(){
     override fun onCreate() {
         super.onCreate()
         GlobalScope.launch {
-            trackerDataLoader.loadData()
+            trackerDataLoader.loadDataDB()
+        }.invokeOnCompletion {
+            GlobalScope.launch {
+                trackerDataLoader.loadMemoryData()
+            }
         }
         trackerDataUpdateScheduler.schedulePeriodicUpdate()
     }

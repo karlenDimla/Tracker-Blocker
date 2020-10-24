@@ -1,9 +1,11 @@
 package io.kdimla.trackblocker.trackerdata.source.disconnect
 
+import androidx.annotation.WorkerThread
 import io.kdimla.trackblocker.trackerdata.db.TrackerDataRepository
 import io.kdimla.trackblocker.trackerdata.source.TrackerDataClient
 import javax.inject.Inject
 
+@WorkerThread
 class DisconnectClient @Inject constructor(
     private val trackerDataRepository: TrackerDataRepository
 ) : TrackerDataClient {

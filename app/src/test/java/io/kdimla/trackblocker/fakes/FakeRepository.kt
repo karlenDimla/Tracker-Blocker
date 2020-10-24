@@ -10,6 +10,10 @@ class FakeRepository : TrackerDataRepository {
     var stateStack = Stack<State>()
     var expectedTrackerList = listOf<Tracker>()
     var expectedPropertyList = listOf<TrackerProperty>()
+    override suspend fun loadData() {
+        stateStack.push(State.DataLoadInitiated)
+    }
+
     override suspend fun saveTrackers(trackers: List<Tracker>) {
         stateStack.push(State.TrackersSaved(trackers))
     }
@@ -37,6 +41,7 @@ class FakeRepository : TrackerDataRepository {
     }
 
     sealed class State {
+        object DataLoadInitiated: State()
         data class TrackersSaved(val trackers: List<Tracker>): State()
         data class PropertiesSaved(val props: List<TrackerProperty>): State()
         data class ResourcesSaved(val resources: List<TrackerResource>): State()

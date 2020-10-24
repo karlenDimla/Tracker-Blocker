@@ -17,6 +17,7 @@ import io.kdimla.trackblocker.trackerdata.source.disconnect.*
 import io.kdimla.trackblocker.trackerdata.source.disconnect.model.TrackerEntitiesAdapter
 import io.kdimla.trackblocker.trackerdata.source.disconnect.model.TrackerServicesAdapter
 import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
@@ -34,6 +35,7 @@ interface TrackerDataModule {
     fun bindTrackerDataParser(impl: DisconnectEntitiesParser): TrackerDataParser
 
     @Binds
+    @Singleton
     fun bindTrackerDataLoader(impl: DisconnectDataLoader): TrackerDataLoader
 
     @Binds

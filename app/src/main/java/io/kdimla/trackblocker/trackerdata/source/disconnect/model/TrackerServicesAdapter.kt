@@ -1,8 +1,10 @@
 package io.kdimla.trackblocker.trackerdata.source.disconnect.model
 
+import androidx.annotation.WorkerThread
 import com.squareup.moshi.*
 import io.kdimla.trackblocker.trackerdata.db.model.Tracker
 
+@WorkerThread
 class TrackerServicesAdapter : JsonAdapter<TrackerServices>() {
     @FromJson
     override fun fromJson(reader: JsonReader): TrackerServices? {

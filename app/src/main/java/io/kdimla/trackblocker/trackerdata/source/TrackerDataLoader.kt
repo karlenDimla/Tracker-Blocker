@@ -7,5 +7,6 @@ import androidx.annotation.WorkerThread
  */
 @WorkerThread
 interface TrackerDataLoader {
-    suspend fun loadData()
+    suspend fun loadDataDB()
+    suspend fun loadMemoryData()
 }

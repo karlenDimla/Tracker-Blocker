@@ -20,9 +20,12 @@ class DisconnectDataLoader @Inject constructor(
         private const val FILE_PATH_ENTITIES = "disconnect-entities.json"
     }
 
-    override suspend fun loadData() {
-        if (repository.countTrackers() == 0) loadTrackers()
+    override suspend fun loadMemoryData() {
+        repository.loadData()
+    }
 
+    override suspend fun loadDataDB() {
+        if (repository.countTrackers() == 0) loadTrackers()
         if (repository.countProperties() == 0) loadEntities()
     }
 
