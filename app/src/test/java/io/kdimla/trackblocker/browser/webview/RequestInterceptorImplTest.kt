@@ -21,7 +21,7 @@ class RequestInterceptorImplTest {
     fun urlIsFirstParty_intercept_returnNull() {
         thirdPartyDetector.shouldBeThirdParty = false
 
-        val result = underTest.intercept("pageUrl", "interceptedUrl")
+        val result = underTest.intercept("pageUrl.com", "interceptedUrl.com")
 
         assertThat(result).isNull()
         assertThat(client.lastState).isEqualTo(FakeTrackerDataClient.State.MatchNotChecked)
@@ -32,15 +32,15 @@ class RequestInterceptorImplTest {
         thirdPartyDetector.shouldBeThirdParty = true
         client.shouldMatch = false
 
-        val result = underTest.intercept("pageUrl", "interceptedUrl")
+        val result = underTest.intercept("pageUrl.com", "interceptedUrl.com")
 
         assertThat(result).isNull()
-        assertThat(thirdPartyDetector.paramPageUrl).isEqualTo("pageUrl")
-        assertThat(thirdPartyDetector.paramInterceptedUrl).isEqualTo("interceptedUrl")
+        assertThat(thirdPartyDetector.paramPageUrl).isEqualTo("pageUrl.com")
+        assertThat(thirdPartyDetector.paramInterceptedUrl).isEqualTo("interceptedUrl.com")
         assertThat(client.lastState).isEqualTo(
             FakeTrackerDataClient.State.MatchRequested(
-                "pageUrl",
-                "interceptedUrl"
+                "pageUrl.com",
+                "interceptedUrl.com"
             )
         )
     }
@@ -50,7 +50,7 @@ class RequestInterceptorImplTest {
         thirdPartyDetector.shouldBeThirdParty = true
         client.shouldMatch = true
 
-        val result = underTest.intercept("pageUrl", "interceptedUrl")
+        val result = underTest.intercept("pageUrl.com", "interceptedUrl.com")
 
         assertThat(result).isNotNull()
         result?.let {
@@ -58,12 +58,12 @@ class RequestInterceptorImplTest {
             assertThat(result.mimeType).isNull()
             assertThat(result.encoding).isNull()
         }
-        assertThat(thirdPartyDetector.paramPageUrl).isEqualTo("pageUrl")
-        assertThat(thirdPartyDetector.paramInterceptedUrl).isEqualTo("interceptedUrl")
+        assertThat(thirdPartyDetector.paramPageUrl).isEqualTo("pageUrl.com")
+        assertThat(thirdPartyDetector.paramInterceptedUrl).isEqualTo("interceptedUrl.com")
         assertThat(client.lastState).isEqualTo(
             FakeTrackerDataClient.State.MatchRequested(
-                "pageUrl",
-                "interceptedUrl"
+                "pageUrl.com",
+                "interceptedUrl.com"
             )
         )
     }

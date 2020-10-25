@@ -15,7 +15,7 @@ class TrackerServicesAdapter : JsonAdapter<TrackerServices>() {
                 reader.skipValue()
             }
             // we are in categories
-            while (reader.hasNext() && reader.peek().name.equals("BEGIN_OBJECT")) {
+            while (reader.hasNext() && reader.peek().name == "BEGIN_OBJECT") {
                 reader.beginObject()
                 while (reader.hasNext()) {
                     val category = reader.nextName()

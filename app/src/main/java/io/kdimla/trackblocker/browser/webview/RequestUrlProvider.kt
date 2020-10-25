@@ -1,6 +1,5 @@
 package io.kdimla.trackblocker.browser.webview
 
-import android.util.Patterns
 import androidx.core.util.PatternsCompat
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets

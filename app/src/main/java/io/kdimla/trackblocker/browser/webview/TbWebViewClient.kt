@@ -5,6 +5,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import timber.log.Timber
 import javax.inject.Inject
 
 class TbWebViewClient @Inject constructor(
@@ -26,6 +27,7 @@ class TbWebViewClient @Inject constructor(
         request: WebResourceRequest
     ): WebResourceResponse? {
         val interceptedUrl = request.url.host ?: ""
+        Timber.tag("Tracker blocking").d("Intercepted ${request.url} for $lastRequestedPageUrl")
         return requestInterceptor.intercept(lastRequestedPageUrl, interceptedUrl)
     }
 }

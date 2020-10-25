@@ -3,6 +3,7 @@ package io.kdimla.trackblocker.browser.webview
 import android.webkit.WebResourceResponse
 import io.kdimla.trackblocker.trackerdata.source.TrackerDataClient
 import io.kdimla.trackblocker.trackerdata.source.disconnect.ThirdPartyDetector
+import timber.log.Timber
 import javax.inject.Inject
 
 interface RequestInterceptor {
@@ -20,10 +21,9 @@ class RequestInterceptorImpl @Inject constructor(
         pageUrl: String,
         interceptedUrl: String
     ): WebResourceResponse? {
-        println("TRACKERBLOCKER INTERCEPTED: $interceptedUrl for $pageUrl")
         val isThirdParty = thirdPartyDetector.isThirdParty(pageUrl, interceptedUrl)
         if (isThirdParty && trackerDataClient.matches(pageUrl, interceptedUrl)) {
-            println("TRACKERBLOCKER BLOCKED: $interceptedUrl for $pageUrl")
+            Timber.tag("Tracker blocking").d("Blocked $interceptedUrl for $pageUrl");
             return WebResourceResponse(null, null, null)
         }
         return null
