@@ -34,6 +34,7 @@ class DisconnectDataLoader @Inject constructor(
         if (result.isNotEmpty()) {
             val parsedData = parser.parseTrackers(result)
                 .filter {
+                    // Initially remove content since this causes to block actual websites
                     it.category != "Content"
                 }
             repository.saveTrackers(parsedData)

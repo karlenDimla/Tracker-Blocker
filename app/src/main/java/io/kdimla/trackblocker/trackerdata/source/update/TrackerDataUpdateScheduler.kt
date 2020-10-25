@@ -24,10 +24,10 @@ class DefaultTrackerDataUpdateScheduler @Inject constructor(
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        return PeriodicWorkRequestBuilder<TrackerDataUpdateWorker>(1, TimeUnit.MINUTES)
+        return PeriodicWorkRequestBuilder<TrackerDataUpdateWorker>(12, TimeUnit.HOURS)
             .addTag(TrackerDataUpdateWorker.TAG)
             .setConstraints(constraints)
-            .setInitialDelay(12, TimeUnit.HOURS)
+            .setInitialDelay(10, TimeUnit.MINUTES)
             .setBackoffCriteria(
                 BackoffPolicy.LINEAR,
                 10,
