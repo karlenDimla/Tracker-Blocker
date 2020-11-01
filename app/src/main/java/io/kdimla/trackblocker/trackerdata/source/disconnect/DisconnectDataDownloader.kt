@@ -14,7 +14,10 @@ class DisconnectDataDownloader @Inject constructor(
     private val repository: TrackerDataRepository
 ) : TrackerDataDownloader {
     override fun downloadData(): Boolean {
-        val trackers = endpointInteractor.getTrackers()
+        val trackers = endpointInteractor.getTrackers().filter {
+            // Initially remove content since this causes to block actual websites
+            it.category != "Content"
+        }
         return if (trackers.isNotEmpty()) {
             runBlocking {
                 repository.saveTrackers(trackers)

@@ -38,4 +38,22 @@ class DisconnectDataDownloaderTest {
             FakeRepository.State.TrackersSaved(endpoint.expectedResult)
         )
     }
+
+    @Test
+    fun withContent_downloadData_removeContent() {
+        endpoint.expectedResult = listOf(
+            Tracker("test", "test", "test", "test"),
+            Tracker("test", "Content", "test", "test")
+        )
+
+        underTest.downloadData()
+
+        assertThat(fakeRepository.stateStack.pop()).isEqualTo(
+            FakeRepository.State.TrackersSaved(
+                listOf(
+                    Tracker("test", "test", "test", "test")
+                )
+            )
+        )
+    }
 }
